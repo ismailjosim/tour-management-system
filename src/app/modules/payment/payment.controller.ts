@@ -49,6 +49,7 @@ const successPayment = catchAsync(async (req: Request, res: Response, next: Next
 
   if (result.success) {
     res.redirect(
+      303,
       buildPaymentRedirectUrl(
         environmentVariables.SSL.SSL_SUCCESS_FRONTEND_URL,
         payload,
@@ -67,6 +68,7 @@ const failPayment = catchAsync(async (req: Request, res: Response, next: NextFun
 
   if (result.success) {
     res.redirect(
+      303,
       buildPaymentRedirectUrl(
         environmentVariables.SSL.SSL_FAIL_FRONTEND_URL,
         payload,
@@ -85,6 +87,7 @@ const cancelPayment = catchAsync(async (req: Request, res: Response, next: NextF
 
   if (result.success) {
     res.redirect(
+      303,
       buildPaymentRedirectUrl(
         environmentVariables.SSL.SSL_CANCEL_FRONTEND_URL,
         payload,
