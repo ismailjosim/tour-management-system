@@ -1,206 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Your Booking Invoice</title>
-		<!-- Tailwind CSS CDN -->
-		<script src="https://cdn.tailwindcss.com"></script>
-		<style>
-			/* Custom font and body styles not easily handled by Tailwind */
-			body {
-				font-family: 'Inter', sans-serif;
-				margin: 0;
-				padding: 0;
-			}
-			/* Fallback for email clients that don't fully support modern CSS */
-			.full-width-table {
-				width: 100% !important;
-				min-width: 100% !important;
-			}
-		</style>
-		<!-- Tailwind Custom Colors -->
-		<script>
-			tailwind.config = {
-				theme: {
-					extend: {
-						colors: {
-							primary: '#029E9D',
-							'primary-foreground': '#ffffff',
-							secondary: '#FDC703',
-							'secondary-foreground': '#263A49',
-							accent: '#263A49',
-							'accent-foreground': '#ffffff',
-						},
-					},
-				},
-			}
-		</script>
-		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-			rel="stylesheet"
-		/>
-	</head>
-	<body class="bg-[#f4f7f6]">
-		<div
-			class="max-w-3xl mx-auto my-5 bg-white rounded-xl shadow-md overflow-hidden"
-		>
-			<!-- Header Section -->
-			<div
-				class="bg-primary text-primary-foreground p-8 text-center rounded-t-xl"
-			>
-				<h1 class="text-3xl font-bold">Invoice #<%= transactionId %></h1>
-				<p class="mt-2 text-lg font-light">
-					Thank you for your booking with Traveler!
-				</p>
-			</div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Booking Invoice</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        .header {
+            background-color: #029E9D;
+            color: #ffffff;
+            padding: 25px 20px;
+            text-align: center;
+        }
+        .header img {
+            height: 48px;
+            width: auto;
+            display: block;
+            margin: 0 auto 8px;
+        }
+        .header p {
+            margin: 0;
+            font-size: 15px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .details-table {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        .details-table td {
+            vertical-align: top;
+            width: 50%;
+        }
+        .details-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #888888;
+            margin: 0 0 5px 0;
+            font-weight: bold;
+        }
+        .details-value {
+            margin: 0 0 15px 0;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .invoice-table th {
+            background-color: #f9f9f9;
+            color: #555555;
+            text-align: left;
+            padding: 12px 15px;
+            font-size: 13px;
+            font-weight: 600;
+            border-bottom: 2px solid #eeeeee;
+        }
+        .invoice-table td {
+            padding: 15px;
+            font-size: 14px;
+            border-bottom: 1px solid #eeeeee;
+        }
+        .text-right {
+            text-align: right !important;
+        }
+        .total-row td {
+            font-weight: bold;
+            font-size: 16px;
+            color: #029E9D;
+            border-bottom: none;
+            padding-top: 20px;
+        }
+        .action-button {
+            display: block;
+            width: 250px;
+            margin: 30px auto 0;
+            background-color: #FDC703;
+            color: #263A49;
+            text-align: center;
+            padding: 15px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .footer {
+            background-color: #f9f9f9;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #888888;
+            border-top: 1px solid #eeeeee;
+        }
+        .footer a {
+            color: #029E9D;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <img src="https://traveler.ismailjosim.com/site-logo-light.png" alt="Traveler Logo" />
+            <p>Your Booking is Confirmed!</p>
+        </div>
 
-			<!-- Invoice Details Section -->
-			<div class="p-8 border-b border-gray-200 flex flex-wrap justify-between">
-				<div class="w-full md:w-1/2 mb-4 md:mb-0">
-					<p class="text-sm text-gray-600 mb-1">
-						<strong>Invoice Date:</strong> <%= bookingDate %>
-					</p>
-					<p class="text-sm text-gray-600 mb-1">
-						<strong>Due Date:</strong> <%= bookingDate %>
-					</p>
-					<p class="text-sm text-gray-600">
-						<strong>Booking ID:</strong> <%= transactionId %>
-					</p>
-				</div>
-				<div class="w-full md:w-1/2 md:text-right">
-					<p class="text-sm text-gray-600 mb-1"><strong>Billed To:</strong></p>
-					<p class="text-sm font-semibold text-gray-800"><%= userName %></p>
-					<p class="text-sm text-gray-600"><%= userEmail %></p>
-					<p class="text-sm text-gray-600">123 Main Street, Anytown, USA</p>
-				</div>
-			</div>
+        <!-- Content -->
+        <div class="content">
+            <table class="details-table" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <p class="details-title">Invoice Date</p>
+                        <p class="details-value"><%= new Date(bookingDate).toLocaleDateString() %></p>
+                        
+                        <p class="details-title">Transaction ID</p>
+                        <p class="details-value"><%= transactionId %></p>
+                    </td>
+                    <td class="text-right">
+                        <p class="details-title">Billed To</p>
+                        <p class="details-value"><%= userName %><br><%= userEmail %></p>
+                    </td>
+                </tr>
+            </table>
 
-			<!-- Booking Summary Section -->
-			<div class="p-8 border-b border-gray-200">
-				<h2 class="text-xl font-semibold text-gray-800 mb-6">
-					Booking Details
-				</h2>
-				<div class="overflow-x-auto">
-					<table class="full-width-table border-collapse">
-						<thead>
-							<tr class="border-b-2 border-gray-300">
-								<th
-									class="text-left text-xs font-medium text-gray-500 uppercase pb-4"
-								>
-									Description
-								</th>
-								<th
-									class="text-left text-xs font-medium text-gray-500 uppercase pb-4"
-								>
-									Quantity
-								</th>
-								<th
-									class="text-left text-xs font-medium text-gray-500 uppercase pb-4"
-								>
-									Price
-								</th>
-								<th
-									class="text-right text-xs font-medium text-gray-500 uppercase pb-4"
-								>
-									Total
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr class="border-b border-gray-100">
-								<td class="py-3 text-sm text-gray-800 font-medium">
-									<%= tourTitle %>
-								</td>
-								<td class="py-3 text-sm text-gray-800">1</td>
-								<td class="py-3 text-sm text-gray-800">--.--</td>
-								<td class="py-3 text-sm text-gray-800 text-right">--.--</td>
-							</tr>
-						</tbody>
-						<tfoot>
-							<tr>
-								<td colspan="3" class="text-right text-sm text-gray-600 pt-4">
-									Subtotal:
-								</td>
-								<td class="pt-4 text-sm text-gray-800 text-right">--.--</td>
-							</tr>
-							<tr>
-								<td colspan="3" class="text-right text-sm text-gray-600 pt-2">
-									Service Fee (5%):
-								</td>
-								<td class="pt-2 text-sm text-gray-800 text-right">--.--</td>
-							</tr>
-							<tr>
-								<td
-									colspan="3"
-									class="text-right text-sm text-gray-600 pt-2 pb-4"
-								>
-									Taxes (10%):
-								</td>
-								<td class="pt-2 pb-4 text-sm text-gray-800 text-right">
-									--.--
-								</td>
-							</tr>
-							<tr class="border-t-2 border-gray-300">
-								<td
-									colspan="3"
-									class="text-right text-base font-bold text-accent py-4"
-								>
-									Total Amount Due:
-								</td>
-								<td
-									class="text-base font-extrabold text-accent py-4 text-right"
-								>
-									<%= totalAmount %>
-								</td>
-							</tr>
-						</tfoot>
-					</table>
-				</div>
-				<p class="text-sm text-gray-600 mt-4">
-					<strong>Payment Status:</strong> Paid in Full
-				</p>
-				<p class="text-sm text-gray-600 mt-1">
-					<strong>Payment Method:</strong> Credit Card (**** **** **** 1234)
-				</p>
-			</div>
+            <table class="invoice-table" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th class="text-right">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><%= tourTitle %></td>
+                        <td class="text-right"><%= totalAmount %></td>
+                    </tr>
+                    <tr class="total-row">
+                        <td class="text-right">Total Amount Due</td>
+                        <td class="text-right"><%= totalAmount %></td>
+                    </tr>
+                </tbody>
+            </table>
 
-			<!-- Call to Action Button Section -->
-			<div class="bg-gray-50 p-8 text-center">
-				<a
-					href="https://travelvistabd.web.app/my-bookings/<%= transactionId %>"
-					class="inline-block bg-secondary text-secondary-foreground hover:bg-[#ffdb4f] px-6 py-3 rounded-md font-bold text-lg transition duration-300"
-					>View Your Booking Details</a
-				>
-			</div>
+            <a href="https://traveler.ismailjosim.com/profile/my-bookings" class="action-button">View Booking Details</a>
+        </div>
 
-			<!-- Footer Section -->
-			<div
-				class="bg-[#ecf0f1] text-gray-600 p-8 text-center text-sm rounded-b-xl"
-			>
-				<p>
-					If you have any questions regarding this invoice, please contact us
-					at:
-				</p>
-				<p class="mt-2">
-					Email:
-					<a
-						href="mailto:support@traveler.com"
-						class="text-blue-500 hover:underline"
-						>support@traveler.com</a
-					>
-					| Phone: +1 (555) 123-4567
-				</p>
-				<p class="mt-2">&copy; 2025 Traveler. All rights reserved.</p>
-				<p>
-					<a
-						href="https://traveler.com"
-						target="_blank"
-						class="text-blue-500 hover:underline"
-						>Visit Our Website</a
-					>
-				</p>
-			</div>
-		</div>
-	</body>
+        <!-- Footer -->
+        <div class="footer">
+            <p>If you have any questions regarding this invoice, please contact us at <a href="mailto:support@traveler.ismailjosim.com">support@traveler.ismailjosim.com</a></p>
+            <p>&copy; <%= new Date().getFullYear() %> Traveler. All rights reserved.</p>
+        </div>
+    </div>
+</body>
 </html>
