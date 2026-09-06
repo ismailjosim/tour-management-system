@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import zlib from 'zlib';
 
@@ -89,16 +90,21 @@ export const lightweightCompression: RequestHandler = (req, res, next) => {
       return originalEnd(body);
     }
 
-    zlib.gzip(body, (error, compressed) => {
-      if (error) {
+    try {
+      if (res.headersSent) {
         return originalEnd(body);
       }
-
+      const compressed = zlib.gzipSync(body);
       res.setHeader('Content-Encoding', 'gzip');
       res.setHeader('Content-Length', compressed.length);
       originalWrite(compressed);
       originalEnd();
-    });
+    } catch (error) {
+      console.error('error in compression:', error);
+      if (!res.headersSent) {
+        originalEnd(body);
+      }
+    }
 
     return res;
   }) as typeof res.end;

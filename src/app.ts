@@ -58,7 +58,7 @@ app.use(passport.session());
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.has(origin)) {
+      if (!origin || origin === 'null' || allowedOrigins.has(origin)) {
         callback(null, true);
         return;
       }
